@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import static org.launchcode.techjobs.console.JobData.findAll;
+
 /**
  * Created by LaunchCode
  */
 public class TechJobs {
-
     private static Scanner in = new Scanner(System.in);
-
     public static void main (String[] args) {
-
+        System.out.println(printJobs(findAll()));
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
         columnChoices.put("core competency", "Skill");
@@ -38,10 +38,10 @@ public class TechJobs {
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
-                    printJobs(JobData.findAll());
+                    printJobs(findAll());
                 } else {
 
-                    ArrayList<String> results = JobData.findAll(columnChoice);
+                    ArrayList<String> results = findAll(columnChoice);
 
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
@@ -109,8 +109,15 @@ public class TechJobs {
     }
 
     // Print a list of jobs
-    private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+    private static String printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        String aJobName;
+        for (HashMap<String,String> jobListing: someJobs){
+            //todo: REMOVE aJobName CODE, WAS USED AS A TEST TO UNDERSTAND EXISTING DATA BEING PULLED,
+            //      CODE NESTED LOOP TO PRINT EACH KEY & VALUE PER EXAMPLE
+            aJobName = jobListing.get("name");
+            return aJobName;
+        }
+//        return aJobName;
+        return "it didn't work";
     }
 }
