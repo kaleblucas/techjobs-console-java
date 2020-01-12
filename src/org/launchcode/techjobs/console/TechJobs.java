@@ -1,8 +1,6 @@
 package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 import static org.launchcode.techjobs.console.JobData.findAll;
 
@@ -12,7 +10,6 @@ import static org.launchcode.techjobs.console.JobData.findAll;
 public class TechJobs {
     private static Scanner in = new Scanner(System.in);
     public static void main (String[] args) {
-        System.out.println(printJobs(findAll()));
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
         columnChoices.put("core competency", "Skill");
@@ -46,6 +43,7 @@ public class TechJobs {
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
                     // Print list of skills, employers, etc
+                    Collections.sort(results);
                     for (String item : results) {
                         System.out.println(item);
                     }
@@ -61,7 +59,7 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -109,15 +107,18 @@ public class TechJobs {
     }
 
     // Print a list of jobs
-    private static String printJobs(ArrayList<HashMap<String, String>> someJobs) {
-        String aJobName;
-        for (HashMap<String,String> jobListing: someJobs){
-            //todo: REMOVE aJobName CODE, WAS USED AS A TEST TO UNDERSTAND EXISTING DATA BEING PULLED,
-            //      CODE NESTED LOOP TO PRINT EACH KEY & VALUE PER EXAMPLE
-            aJobName = jobListing.get("name");
-            return aJobName;
+    private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        String asteriskBreak = "*****";
+        if (someJobs.size() > 0) {
+            for (HashMap<String, String> aJob : someJobs) {
+                System.out.println(asteriskBreak);
+                for (HashMap.Entry<String, String> jobListing : aJob.entrySet()) {
+                    System.out.println(jobListing.getKey() + ": " + jobListing.getValue());
+                }
+                System.out.println(asteriskBreak + "\n");
+            }
+        } else {
+            System.out.println("No job found in the database. Please search again.");
         }
-//        return aJobName;
-        return "it didn't work";
     }
 }
